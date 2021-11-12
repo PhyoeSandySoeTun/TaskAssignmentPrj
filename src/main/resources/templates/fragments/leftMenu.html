@@ -2,6 +2,17 @@
 				<script type="text/javascript">
 					try{ace.settings.loadState('sidebar')}catch(e){}
 				</script>
+				
+				<ul class="nav nav-list" id="cbm-mis">
+					<li class="" id="notFinsih">
+						<a th:href="@{/}">
+							<i class="menu-icon fa fa-folder-open"></i>
+							<span class="menu-text"> Not Finished Assign </span>
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+				</ul>
 
 				<ul class="nav nav-list" id="cbm-mis">
 					<li class="" id="home">
@@ -16,7 +27,7 @@
 				
 				<ul class="nav nav-list" id="cbm-mis">
 					<li class="" id="assign">
-						<a th:href="@{/task/taskListPagination?currentPage=1}">
+						<a th:href="@{/task/taskListPagination?currentPage=1&finish=true}">
 							<i class="menu-icon fa fa-sticky-note"></i>
 							<span class="menu-text"> Assign </span>
 						</a>

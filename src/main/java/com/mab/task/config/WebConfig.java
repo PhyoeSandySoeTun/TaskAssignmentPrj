@@ -109,8 +109,8 @@ public class WebConfig implements WebMvcConfigurer {
     
     @Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		//registry.addViewController("/").setViewName(viewName);
-		registry.addRedirectViewController("/", "redirect:/task/taskAssignment");
+		registry.addViewController("/").setViewName("notFinishAssign.html");
+		//registry.addRedirectViewController("/", "redirect:/task/taskListPagination?currentPage=1&finish=false");
     	
 	}
 }

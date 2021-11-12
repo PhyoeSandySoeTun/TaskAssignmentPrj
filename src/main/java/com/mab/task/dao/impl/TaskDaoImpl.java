@@ -77,6 +77,16 @@ public class TaskDaoImpl implements TaskDao {
 	}
 	
 	@Override
+	public List<TaskAssignment> getNotFinishTask() throws Exception {
+		List<TaskAssignment> list = new ArrayList<>();
+		String sql = "SELECT id,taskName,"
+				+ " to_char(target_date,'dd-mm-yyyy') as targetDate,buizResource as buizResources,status FROM task  WHERE status ='2'";
+		list = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(TaskAssignment.class));
+		
+		return (list == null || list.size() == 0) ? null : list;
+	}
+	
+	@Override
 	public Boolean saveAssign(Assign assign) throws Exception {
 		String sql = "INSERT INTO task_assign VALUES('"+assign.getTaskId()+"','"+ assign.getUserId() +"')";
 		jdbcTemplate.execute(sql);
@@ -132,11 +142,11 @@ public class TaskDaoImpl implements TaskDao {
 		}
 		
 		String sql = "SELECT * FROM ("
-				+ "       SELECT row_number() over (ORDER BY target_date desc) line_number, id, taskName, "
+				+ "       SELECT row_number() over (ORDER BY target_date) line_number, id, taskName, "
 				+ " to_char(target_date,'dd-mm-yyyy') as targetDate, buizResource as buizResources, status FROM task"
 				+ " ) WHERE line_number >= '"+startRecord+"' AND line_number <= '"+endRecord+"'"
-				+ " ORDER BY targetDate desc ";
-		
+				+ " ORDER BY targetDate";  //desc
+				
 		List<TaskAssignment> list = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(TaskAssignment.class));
 		TaskListPagination listData = new TaskListPagination();	
 		
@@ -147,5 +157,5 @@ public class TaskDaoImpl implements TaskDao {
 		
 		return listData;
 	}
-
 }
+ 

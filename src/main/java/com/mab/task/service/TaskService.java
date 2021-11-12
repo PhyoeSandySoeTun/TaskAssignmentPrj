@@ -13,5 +13,6 @@ public interface TaskService {
 	Boolean deleteTask(String id) throws Exception;
 	TaskAssignment getTaskById(String id) throws Exception;
 	List<TaskAssignment> getAllTask() throws Exception;
+	List<TaskAssignment> getNotFinishTask() throws Exception;
 	TaskListPagination getAllTaskByPagination(int currentPage) throws Exception;
 }

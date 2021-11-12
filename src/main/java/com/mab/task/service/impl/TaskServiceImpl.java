@@ -37,7 +37,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public Boolean saveTask(TaskAssignment task) throws Exception {
 		String pattern = "dd-MM-yyyy";
-		if(task.getId().isEmpty()) {
+		if (task.getId().isEmpty()) {
 			task.setId(Util.generateID());
 			task.setTargetDate(new SimpleDateFormat(pattern).format(task.getTarget_Date()));
 			taskDao.saveTask(task);
@@ -75,7 +75,7 @@ public class TaskServiceImpl implements TaskService {
 
 		Status status1 = new Status();
 		status1.setCode(2);
-		status1.setDescription("Failed");
+		status1.setDescription("Not Finished");
 
 		statusCbo.add(status2);
 		statusCbo.add(status);
@@ -87,7 +87,7 @@ public class TaskServiceImpl implements TaskService {
 	public TaskAssignment getTaskById(String id) throws Exception {
 		TaskAssignment task = new TaskAssignment();
 		task = taskDao.getTaskById(id);
-		
+
 		List<String> resList = taskDao.getResListByTaskId(id);
 		task.setItResources(resList);
 		return task;
@@ -97,29 +97,28 @@ public class TaskServiceImpl implements TaskService {
 	public List<TaskAssignment> getAllTask() throws Exception {
 		List<TaskAssignment> taskList = taskDao.getAllTask();
 		String res = "";
-		
-		for(int i=0; i<taskList.size(); i++) {
+
+		for (int i = 0; i < taskList.size(); i++) {
 			List<String> resList = taskDao.getResNameListByTaskId(taskList.get(i).getId());
-			for(int j=0; j< resList.size(); j++) {
+			for (int j = 0; j < resList.size(); j++) {
 				res += resList.get(j) + ",";
 			}
-			if(!res.isEmpty()) 
-				res = res.substring(0, res.length() -1);
-			//System.out.println(res);
+			if (!res.isEmpty())
+				res = res.substring(0, res.length() - 1);
+			// System.out.println(res);
 			taskList.get(i).setItRes(res);
 			res = "";
 		}
-		
-		
-		for(TaskAssignment task: taskList) {
-			if(task.getStatus().equals("0")) {
+
+		for (TaskAssignment task : taskList) {
+			if (task.getStatus().equals("0")) {
 				task.setStatus("Start");
 			} else if (task.getStatus().equals("1")) {
 				task.setStatus("Completed");
 			} else
-				task.setStatus("Failed");
+				task.setStatus("Not Finished");
 		}
-		
+
 		return taskList;
 	}
 
@@ -128,27 +127,55 @@ public class TaskServiceImpl implements TaskService {
 		TaskListPagination taskList = taskDao.getAllTaskByPagination(currentPage);
 		String res = "";
 		List<TaskAssignment> dataList = taskList.getListData();
-		
-		for(int i=0; i<dataList.size(); i++) {
+
+		for (int i = 0; i < dataList.size(); i++) {
 			List<String> resList = taskDao.getResNameListByTaskId(dataList.get(i).getId());
-			for(int j=0; j< resList.size(); j++) {
+			for (int j = 0; j < resList.size(); j++) {
 				res += resList.get(j) + ",";
 			}
-			if(!res.isEmpty()) 
-				res = res.substring(0, res.length() -1);
-			//System.out.println(res);
+			if (!res.isEmpty())
+				res = res.substring(0, res.length() - 1);
+			// System.out.println(res);
 			dataList.get(i).setItRes(res);
 			res = "";
 		}
-		
-		for(TaskAssignment task: dataList) {
-			if(task.getStatus().equals("0")) {
+
+		for (TaskAssignment task : dataList) {
+			if (task.getStatus().equals("0")) {
 				task.setStatus("Start");
 			} else if (task.getStatus().equals("1")) {
 				task.setStatus("Completed");
 			} else
-				task.setStatus("Failed");
+				task.setStatus("Not Finished");
 		}
+		return taskList;
+	}
+
+	@Override
+	public List<TaskAssignment> getNotFinishTask() throws Exception {
+		List<TaskAssignment> taskList = taskDao.getNotFinishTask();
+		String res = "";
+
+		for (int i = 0; i < taskList.size(); i++) {
+			List<String> resList = taskDao.getResNameListByTaskId(taskList.get(i).getId());
+			for (int j = 0; j < resList.size(); j++) {
+				res += resList.get(j) + ",";
+			}
+			if (!res.isEmpty())
+				res = res.substring(0, res.length() - 1);
+			taskList.get(i).setItRes(res);
+			res = "";
+		}
+
+		for (TaskAssignment task : taskList) {
+			if (task.getStatus().equals("0")) {
+				task.setStatus("Start");
+			} else if (task.getStatus().equals("1")) {
+				task.setStatus("Completed");
+			} else
+				task.setStatus("Not Finished");
+		}
+
 		return taskList;
 	}
 

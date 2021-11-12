@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/fragments/layout}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Not Finished Assign List</title>
+</head>
+<body>
+
+	<div layout:fragment="page_content" class="main-content-inner">
+		<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+			<ul class="breadcrumb">
+				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Home</a>
+				</li>
+				<li class="active">Assign</li>
+			</ul>
+		</div>
+
+		<div class="page-content">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3 class="header smaller lighter info">Not Finished Assign List</h3>
+				
+					<div class="row" style="text-align: center; background-color: white;">
+						<table class="table">
+							<thead>
+								<tr>
+									<td>Task Name</td>
+									<td>Target Date</td>
+									<td>IT Resources</td>
+									<td>Business Resources</td>
+									<td>Status</td>
+									<td>Edit</td>
+									<td>Delete</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="task : ${list}">
+									<td th:text="${task.taskName}"></td>
+									<td th:text="${task.targetDate}"></td>
+									<td th:text="${task.itRes}"></td>
+									<td th:text="${task.buizResources}"></td>
+									<td th:text="${task.status}"></td>
+									<td><a th:href="@{'/task/edit/' + ${task.id}}" type="button" class="btn btn-info">Edit</a></td>
+									<td><a th:href="@{'/task/delete/' + ${task.id}}" type="button"  class="btn btn-danger">Delete</a></td>
+								</tr>
+
+
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>			
+</body>
+
+<th:block layout:fragment=scripts>
+	<script th:src="@{/theme2/assets/js/jquery-2.1.4.min.js}"></script>
+	
+		<script>
+			
+			$(function() {
+
+				$("#cbm-mis li ").removeClass('active');
+				$("#cbm-mis #notFinsih").addClass('active');
+
+			});
+		</script>
+	</th:block>
+</html>

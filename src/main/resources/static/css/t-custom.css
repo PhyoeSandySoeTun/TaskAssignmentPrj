@@ -17,3 +17,7 @@ border-right-color:#ff9800 !important;
 .no-skin .nav-list>li.active>a{
 	color:#b46d05 !important;
 }
+
+.checkBoxTest {
+	background-color:#9a0638;
+}

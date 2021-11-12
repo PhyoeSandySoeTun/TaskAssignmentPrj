@@ -19,7 +19,7 @@
 		<div class="page-content">
 			<div class="row">
 
-				<div class="col-sm-8">
+				<div class="col-sm-12">
 					<h3 class="header smaller lighter info">Task Assignment</h3>
 					<form th:action="@{/task/taskAssignment}" th:object="${form}" method="post" class="form-horizontal">
 						<input type="hidden" th:field="*{id}" class="addMod" />
@@ -55,7 +55,9 @@
 								Business Resources</label>
 							<div class="col-sm-9">
 								<div class="clearfix">
-									<textarea th:field="*{buizResources}" class="col-xs-10 col-sm-5"></textarea>
+									<textarea style="background-image: -webkit-linear-gradient(left, white 10px, transparent 10px), -webkit-linear-gradient(right, white 10px, transparent 10px), -webkit-linear-gradient(white 30px, #ccc 30px, #ccc 31px, white 31px);
+										background-size: 100% 100%, 100% 100%, 100% 31px;line-height: 31px;"
+										rows="5" th:field="*{buizResources}" class="col-xs-10 col-sm-5"></textarea>
 								</div>
 								<div class="text-error"
 										th:if="${#fields.hasErrors('buizResources')}" th:errors="*{buizResources}">
@@ -63,15 +65,19 @@
 							</div>
 						</div>
 						
-						
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="resId">
 								IT Resources</label>
 							<div class="col-sm-9">
-								<div class="clearfix">
-									<input type="checkbox" th:each="res: ${resourceList}" th:field="*{itResources}" 
-                              			th:value="${res.userId}" th:text="${res.name}" id="checkBox">
+							<div class="col-sm-5" style="max-height: 100px;overflow-y: scroll;">
+								<div class="row" th:each="res: ${resourceList}">
+									<div class="clearfix">
+										<input type="checkbox" th:field="*{itResources}" 
+	                              			th:value="${res.userId}"  id="checkBoxTest"> <label th:text="${res.name}"></label>
+									</div>
 								</div>
+							</div>
+							
 								<div class="text-error"
 										th:if="${#fields.hasErrors('itResources')}" th:errors="*{itResources}">
 								</div>

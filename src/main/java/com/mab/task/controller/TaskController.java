@@ -27,13 +27,13 @@ import com.mab.task.service.UserService;
 @RequestMapping("/task")
 public class TaskController {
 	private final Logger log = LoggerFactory.getLogger(TaskController.class);
-	
+
 	@Autowired
 	private TaskService taskService;
 
 	@Autowired
 	private UserService userService;
-	
+
 	@GetMapping("/taskAssignment")
 	public String assignmentForm(Model model) throws Exception {
 		initializeData(model);
@@ -45,21 +45,21 @@ public class TaskController {
 	@PostMapping("/taskAssignment")
 	public String saveAssign(@Valid @ModelAttribute("form") TaskAssignment form, BindingResult result, Model model) {
 		initializeData(model);
-			if(!result.hasErrors()) {
-				try {
-					taskService.saveTask(form);
-					model.addAttribute("form", new TaskAssignment());
-					model.addAttribute("message", "Saved Success");
-				} catch (Exception e) {
-					log.error("Task Assignment Saved Failed: " + e.getMessage());
-					e.printStackTrace();
-				}
-			} else {
-				model.addAttribute("form", form);
+		if (!result.hasErrors()) {
+			try {
+				taskService.saveTask(form);
+				model.addAttribute("form", new TaskAssignment());
+				model.addAttribute("message", "Saved Success");
+			} catch (Exception e) {
+				log.error("Task Assignment Saved Failed: " + e.getMessage());
+				e.printStackTrace();
 			}
-			
-		//return "taskForm";
-	      return "redirect:/task/taskListPagination?currentPage=1";
+		} else {
+			model.addAttribute("form", form);
+		}
+
+		return "taskForm";
+		//return "redirect:/task/taskListPagination?currentPage=1"; org
 	}
 
 	@GetMapping("/taskList")
@@ -73,7 +73,7 @@ public class TaskController {
 		}
 		return "taskList";
 	}
-	
+
 	@GetMapping("/taskListPagination")
 	public String showTaskViewByPagination(@RequestParam("currentPage") int currentPage, Model model) {
 		try {
@@ -85,7 +85,7 @@ public class TaskController {
 		}
 		return "taskListPagination";
 	}
-	
+
 	@GetMapping("/edit/{id}")
 	public String showEditForm(@PathVariable(name = "id") String id, Model model) {
 		initializeData(model);
@@ -93,34 +93,35 @@ public class TaskController {
 			TaskAssignment task = taskService.getTaskById(id);
 			model.addAttribute("form", task);
 		} catch (Exception ex) {
-			
+
 		}
 		return "taskForm";
 	}
 
 	@GetMapping("/delete/{id}")
 	public String deleteForm(@PathVariable(name = "id") String id, Model model) {
-		try { 	
+		try {
 			taskService.deleteTask(id);
 		} catch (Exception ex) {
 		}
-		return "redirect:/task/taskList";
+		//return "redirect:/task/taskList";
+		return "redirect:/task/taskListPagination?currentPage=1";
 	}
-	
+
 	@GetMapping("/search")
 	public String showSearchUserForm(Model model) {
-		model.addAttribute("user",new User());
+		model.addAttribute("user", new User());
 		try {
 			model.addAttribute("list", userService.getResourceUserList());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//return "searchForm";
+		// return "searchForm";
 		return "multipleSearch";
 	}
-	
+
 	@PostMapping("/search")
-	public String searchUser(@ModelAttribute("user") User searchUser,Model model) {
+	public String searchUser(@ModelAttribute("user") User searchUser, Model model) {
 		try {
 			model.addAttribute("user", searchUser);
 			model.addAttribute("list", userService.searchUser(searchUser.getName()));
@@ -129,8 +130,6 @@ public class TaskController {
 		}
 		return "searchForm";
 	}
-	
-	
 
 	private void initializeData(Model model) {
 		try {

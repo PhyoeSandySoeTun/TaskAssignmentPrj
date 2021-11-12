@@ -12,6 +12,7 @@ public interface TaskDao {
 	Boolean deleteTask(String id) throws Exception;
 	TaskAssignment getTaskById(String id) throws Exception;
 	List<TaskAssignment> getAllTask() throws Exception;
+	List<TaskAssignment> getNotFinishTask() throws Exception;
 	TaskListPagination getAllTaskByPagination(int currentPage) throws Exception;
 	Boolean saveAssign(Assign assign) throws Exception;
 	Boolean deleteAssignByTaskId(String id) throws Exception;
