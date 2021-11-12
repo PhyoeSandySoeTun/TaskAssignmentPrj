@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/fragments/layout}">
+<head>
+<title>MAB|TASK</title>
+</head>
+<body>
+	<div layout:fragment="page_content" class="main-content-inner">
+		<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+			<ul class="breadcrumb">
+				<li><i class="ace-icon fa fa-home home-icon"></i><a href="#">Home</a>
+				</li>
+				<li class="active">Task Assignment</li>
+			</ul>
+		</div>
+		
+		<div class="page-content">
+			<div class="row">
+
+				<div class="col-sm-8">
+					<h3 class="header smaller lighter info">Task Assignment</h3>
+					<form th:action="@{/task/taskAssignment}" th:object="${form}" method="post" class="form-horizontal">
+						<input type="hidden" th:field="*{id}" class="addMod" />
+						
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">TaskName</label>
+							<div class="col-sm-9">
+								<div class="clearfix">
+									<input type="text" th:field="*{taskName}" autocomplete="off" class="col-xs-10 col-sm-5">
+								</div>
+								<div class="text-error"
+									th:if="${#fields.hasErrors('taskName')}" th:errors="*{taskName}">
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">
+							Target Date</label>
+							<div class="col-sm-9">
+								<div class="clearfix">
+									<input type="date" th:field="*{target_Date}"  class="col-xs-10 col-sm-5">
+								</div>
+								<div class="text-error"
+										th:if="${#fields.hasErrors('target_Date')}" th:errors="*{target_Date}">
+								</div>	
+							</div>
+						</div>
+						
+						
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">
+								Business Resources</label>
+							<div class="col-sm-9">
+								<div class="clearfix">
+									<textarea th:field="*{buizResources}" class="col-xs-10 col-sm-5"></textarea>
+								</div>
+								<div class="text-error"
+										th:if="${#fields.hasErrors('buizResources')}" th:errors="*{buizResources}">
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="form-group">
+							<label class="col-sm-3 control-label" for="resId">
+								IT Resources</label>
+							<div class="col-sm-9">
+								<div class="clearfix">
+									<input type="checkbox" th:each="res: ${resourceList}" th:field="*{itResources}" 
+                              			th:value="${res.userId}" th:text="${res.name}" id="checkBox">
+								</div>
+								<div class="text-error"
+										th:if="${#fields.hasErrors('itResources')}" th:errors="*{itResources}">
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-3 control-label" for="status">
+								Status</label>
+							<div class="col-sm-9">
+								<div class="clearfix">
+									<select th:field="*{status}" class="col-xs-10 col-sm-5">
+	                                	<option th:each="stat: ${statusList}" th:text="${stat.description}"
+	                                        th:value="${stat.code}"  />
+	                                  </select>
+								</div>
+								<div class="text-error" th:if="${#fields.hasErrors('status')}"
+									 th:errors="*{status}">
+									</div>
+							
+							</div>
+						</div>
+						
+						
+						<div class="form-group">
+							<div class="col-sm-3">								
+							</div>
+							<div class="col-sm-9">
+								<button type="submit" class="btn btn-xs btn-warning">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			<div class="message" style="margin-top: 5px; width: 400px;">
+				<div th:if="${message !=null}" th:text="${message}" class="alert alert-success">
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+	<th:block layout:fragment=scripts>
+
+		<script>
+			$(function() {
+
+				$("#cbm-mis li ").removeClass('active');
+				$("#cbm-mis #home").addClass('active');
+
+			});
+		</script>
+	</th:block>

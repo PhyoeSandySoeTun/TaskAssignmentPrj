@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/fragments/layout}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Search User</title>
+</head>
+<body>
+	<div layout:fragment="page_content" class="main-content-inner">
+
+		<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+			<ul class="breadcrumb">
+				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Home</a>
+				</li>
+				<li class="active">Search User</li>
+			</ul>
+		</div>
+
+		<div class="page-content">
+			<div class="row">
+
+				<div class="col-sm-8">
+					<h3 class="header smaller lighter info">Search User</h3>
+				<!-- multiple="" -->
+						<select id="form-field-select-3" 
+							data-placeholder="Choose User..." 
+							class="chosen-select form-control col-xs-10 col-sm-5">
+		                   	<option th:each="stat: ${list}" th:text="${stat.name}"
+		                           th:value="${stat.userId}"  />
+	                	</select>
+
+				</div>
+
+
+			</div>
+
+		</div>
+	</div>
+
+</body>
+
+
+
+<th:block layout:fragment=scripts>
+
+	<script>
+		$(function() {
+			
+ 			$('.chosen-select').chosen({allow_single_deselect:true}); 
+ 			
+			$("#cbm-mis li ").removeClass('active');
+			$("#cbm-mis #search").addClass('active');
+
+		});
+	</script>
+</th:block>
+</html>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/fragments/layout}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Task List</title>
+</head>
+<body>
+
+	<div layout:fragment="page_content" class="main-content-inner">
+		<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+			<ul class="breadcrumb">
+				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Home</a>
+				</li>
+				<li class="active">Assign</li>
+			</ul>
+		</div>
+
+		<div class="page-content">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3 class="header smaller lighter info">Assign List</h3>
+				
+					<div class="row" style="text-align: center; background-color: white;">
+						<table class="table">
+							<thead>
+								<tr>
+									<td>Task Name</td>
+									<td>Target Date</td>
+									<td>IT Resources</td>
+									<td>Business Resources</td>
+									<td>Status</td>
+									<td>Edit</td>
+									<td>Delete</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="task : ${list.listData}">
+									<td th:text="${task.taskName}"></td>
+									<td th:text="${task.targetDate}"></td>
+									<td th:text="${task.itRes}"></td>
+									<td th:text="${task.buizResources}"></td>
+									<td th:text="${task.status}"></td>
+									<td><a th:href="@{'/task/edit/' + ${task.id}}" type="button" class="btn btn-info">Edit</a></td>
+									<td><a th:href="@{'/task/delete/' + ${task.id}}" type="button"  class="btn btn-danger">Delete</a></td>
+								</tr>
+
+
+							</tbody>
+						</table>
+
+					</div>
+					
+						<div class="row">
+						<div class="col-sm-3"></div>
+						<div class="col-sm-6">
+							<footer class="fixed-bottom" th:if="${list.totalPages > 1}">
+								<nav>
+									<ul class="pagination">
+				
+										<li class="page-item"><a
+											th:href="@{'/task/taskListPagination?currentPage=1'}"> First </a></li>
+				
+										<!--  href = # if current Page = 1 otherwise go previous page -->
+										<li
+											th:class="${list.currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+											<a th:if="${list.currentPage > 1}"
+											th:href="@{'/task/taskListPagination?currentPage=' + ${list.currentPage -1 }}">
+												Prev </a> <a th:if="${list.currentPage == 1}" href="#"> Prev </a>
+										</li>
+				
+										<th:block th:if="${list.totalPages <= 10}">
+											<li class="page-item"
+												th:each="i: ${#numbers.sequence(1, list.totalPages)}"
+												th:classappend="${list.currentPage == i} ?  active : ''"><a
+												class="page-link"
+												th:href="@{'/task/taskListPagination?currentPage=' + ${i}}">[[${i}]]</a>
+				
+											</li>
+										</th:block>
+				
+										<th:block th:if="${list.totalPages > 10}">
+											<th:block
+												th:if="${list.currentPage <= 5 || list.currentPage >= list.totalPages - 4}">
+												<li class="page-item" th:each="i: ${#numbers.sequence(1, 5)}"
+													th:classappend="${list.currentPage == i} ?  active : ''">
+													<a class="page-link"
+													th:href="@{'/task/taskListPagination?currentPage=' + ${i}}">[[${i}]]</a>
+												</li>
+				
+												<li class="page-item"><a class="page-link"
+													th:href="@{'/task/taskListPagination?currentPage=' + 6}">...</a></li>
+				
+												<li class="page-item"
+													th:each="i: ${#numbers.sequence(list.totalPages - 4, list.totalPages)}"
+													th:classappend="${list.currentPage == i} ?  active : ''">
+													<a class="page-link"
+													th:href="@{'/task/taskListPagination?currentPage=' + ${i}}">[[${i}]]</a>
+												</li>
+											</th:block>
+				
+											<th:block
+												th:if="${list.currentPage > 5 && list.currentPage < list.totalPages - 4}">
+												<li class="page-item"><a class="page-link"
+													th:href="@{'/task/taskListPagination?currentPage=' + ${list.currentPage - 5}}">...</a>
+												</li>
+				
+												<li class="page-item"
+													th:each="i: ${#numbers.sequence(list.currentPage - 4, list.currentPage + 4)}"
+													th:classappend="${list.currentPage == i} ?  active : ''">
+													<a class="page-link"
+													th:href="@{'/task/taskListPagination?currentPage=' + ${i}}">[[${i}]]</a>
+												</li>
+				
+												<li class="page-item"><a class="page-link"
+													th:href="@{'/task/taskListPagination?currentPage=' + ${list.currentPage + 5}}">...</a>
+												</li>
+											</th:block>
+				
+				
+										</th:block>
+				
+				
+										<li
+											th:class="${list.currentPage < list.totalPages ? 'page-item' : 'page-item disabled'}">
+											<a
+											th:href="@{'/task/taskListPagination?currentPage=' + ${list.currentPage + 1}}"
+											th:if="${list.currentPage  < list.totalPages}"> Next </a> <a
+											href="#" th:if="${list.currentPage  == list.totalPages}">
+												Next </a>
+										</li>
+				
+										<li class="page-item"><a
+											th:href="@{'/task/taskListPagination?currentPage=' + ${list.totalPages}}">
+												Last </a></li>
+									</ul>
+								</nav>
+							</footer>	
+						</div>
+						<div class="col-sm-3"></div>
+					</div>
+									
+				</div>
+			</div>
+		</div>
+	</div>			
+</body>
+
+<th:block layout:fragment=scripts>
+		<script>
+			
+			$(function() {
+
+				$("#cbm-mis li ").removeClass('active');
+				$("#cbm-mis #assign").addClass('active');
+
+			});
+		</script>
+	</th:block>
+</html>

@@ -1,0 +1,19 @@
+.navbar{
+	background:#8f8d8a !important;
+}
+.text-error{
+	color:#e90e0a !important;
+}
+.no-skin .nav-list li.active>a:after{
+border-right-color:#ff9800 !important; 
+}
+.no-skin .nav-list>li.active:after{
+	border:2px solid #ff9800 !important; 
+	border-width: 0 2px 0 0 !important;
+}
+.no-skin .navbar .navbar-toggle{
+	background-color:#9a0638 !important;
+}
+.no-skin .nav-list>li.active>a{
+	color:#b46d05 !important;
+}
